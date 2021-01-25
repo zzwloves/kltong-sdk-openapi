@@ -131,6 +131,7 @@ public final class KltMchtClient {
 
     private String getPlaintext(KltRequest kltRequest) {
         JSONObject json = (JSONObject) JSON.toJSON(kltRequest);
+        json = JsonUtils.sort(json);
         JSONObject head = (JSONObject) json.get("head");
         head.remove("sign");
         TreeMap<String, Object> treeMap = new TreeMap<>(head.getInnerMap());
