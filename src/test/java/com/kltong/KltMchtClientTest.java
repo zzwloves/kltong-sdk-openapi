@@ -2,7 +2,6 @@ package com.kltong;
 
 import com.alibaba.fastjson.JSON;
 import com.githup.zzwloves.KltMchtClient;
-import com.githup.zzwloves.dto.KltRequest;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -47,7 +46,7 @@ public class KltMchtClientTest {
         DownloadCheckFileForJsonParam param = new DownloadCheckFileForJsonParam();
         param.setDate("20201120");
         // 通过content构建加签后的请求对象，用户可以直接使用此对象进行HTTP请求
-        KltRequest<DownloadCheckFileForJsonParam> request = client.buildKltRequest(param);
+        String request = client.buildHttpBody(param);
 
         //http方法为普通的HTTP请求方法，由用户自己实现
         DownloadCheckFileForJsonRes res = http("https://ipay.chinasmartpay.cn/openapi/opc/downloadCheckFileJsonData", request,
@@ -61,15 +60,15 @@ public class KltMchtClientTest {
 
     }
 
-    private static <T> T http(String url, KltRequest request, Class<T> responseType) throws Exception {
+    private static <T> T http(String url, String body, Class<T> responseType) throws Exception {
         HttpPost httpPost = new HttpPost(url);
-        HttpEntity httpEntity = new StringEntity(JSON.toJSONString(request), ContentType.APPLICATION_JSON);
+        HttpEntity httpEntity = new StringEntity(body, ContentType.APPLICATION_JSON);
         httpPost.setEntity(httpEntity);
         CloseableHttpResponse response = null;
         try {
             response = httpClient.execute(httpPost);
         } catch (Exception e) {
-            throw new Exception("发送请求失败！==》" + request, e);
+            throw new Exception("发送请求失败！==》" + body, e);
         }
         // 请求失败
         if (response.getStatusLine().getStatusCode() != 200) {
