@@ -6,7 +6,7 @@
 
     <groupId>com.github.zzwloves</groupId>
     <artifactId>kltong-sdk-openapi</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
 
     <!-->这里继承它的原因是它包含了一些必备的配置，如中央仓库地址、maven-javadoc-plugin插件、maven-gpg-plugin插件等<-->

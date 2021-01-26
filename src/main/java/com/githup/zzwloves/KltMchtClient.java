@@ -71,20 +71,15 @@ public final class KltMchtClient {
     }
 
     /**
-     * 构建开联通请求对象
+     * 构建HTTP请求体内容
      *
      * @param content 开联通请求的content
      * @param <T>     content的类型
-     * @return 开联通请求对象
+     * @return HTTP请求体内容（JSON字符串）
      */
-    public <T> KltRequest<T> buildKltRequest(T content) {
-        KltRequest<T> request = new KltRequest<>();
-        request.setContent(content);
-        Head head = new Head(mchtId);
-        request.setHead(head);
-        String sign = getSign(request);
-        request.getHead().setSign(sign);
-        return request;
+    public <T> String buildHttpBody(T content) {
+        KltRequest<T> request = buildKltRequest(content);
+        return JSON.toJSONString(request);
     }
 
     /**
@@ -99,6 +94,23 @@ public final class KltMchtClient {
         String signMsg = response.getSignMsg();
         String plaintext = getPlaintext(response);
         return RSAUtils.rsa256VerifySign(plaintext, signMsg, kltPublicKey, StandardCharsets.UTF_8.name());
+    }
+
+    /**
+     * 构建开联通请求对象
+     *
+     * @param content 开联通请求的content
+     * @param <T>     content的类型
+     * @return 开联通请求对象
+     */
+    private <T> KltRequest<T> buildKltRequest(T content) {
+        KltRequest<T> request = new KltRequest<>();
+        request.setContent(content);
+        Head head = new Head(mchtId);
+        request.setHead(head);
+        String sign = getSign(request);
+        request.getHead().setSign(sign);
+        return request;
     }
 
     private String getSign(KltRequest kltRequest) {
