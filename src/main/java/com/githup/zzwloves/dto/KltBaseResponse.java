@@ -19,6 +19,10 @@ public class KltBaseResponse implements Serializable {
     private String signType;
     private Long time;
 
+    // 接口失败时返回的信息
+    private String errorCode;
+    private Object data;
+
     public String getResponseCode() {
         return responseCode;
     }
@@ -75,6 +79,22 @@ public class KltBaseResponse implements Serializable {
         this.time = time;
     }
 
+    public String getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -88,7 +108,9 @@ public class KltBaseResponse implements Serializable {
         if (mchtId != null ? !mchtId.equals(that.mchtId) : that.mchtId != null) return false;
         if (signMsg != null ? !signMsg.equals(that.signMsg) : that.signMsg != null) return false;
         if (signType != null ? !signType.equals(that.signType) : that.signType != null) return false;
-        return time != null ? time.equals(that.time) : that.time == null;
+        if (time != null ? !time.equals(that.time) : that.time != null) return false;
+        if (errorCode != null ? !errorCode.equals(that.errorCode) : that.errorCode != null) return false;
+        return data != null ? data.equals(that.data) : that.data == null;
     }
 
     @Override
@@ -100,6 +122,8 @@ public class KltBaseResponse implements Serializable {
         result = 31 * result + (signMsg != null ? signMsg.hashCode() : 0);
         result = 31 * result + (signType != null ? signType.hashCode() : 0);
         result = 31 * result + (time != null ? time.hashCode() : 0);
+        result = 31 * result + (errorCode != null ? errorCode.hashCode() : 0);
+        result = 31 * result + (data != null ? data.hashCode() : 0);
         return result;
     }
 
@@ -113,6 +137,8 @@ public class KltBaseResponse implements Serializable {
                 ", signMsg='" + signMsg + '\'' +
                 ", signType='" + signType + '\'' +
                 ", time=" + time +
+                ", errorCode='" + errorCode + '\'' +
+                ", data=" + data +
                 '}';
     }
 }
